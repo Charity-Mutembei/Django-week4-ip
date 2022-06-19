@@ -145,21 +145,24 @@
           </div>
           <div class="col-6">
             <div class="see-this">
+                {% for post in posts %}
                 <div class="card mb-3" >
-                    <div class="row g-0">
+                   
+                    <div class="row">
                         <div class="col-2">
                             <img src="/static/Cabelo quebradiço_ um guia completo para cabelos cacheados.jpeg" class="img-fluid rounded-start" alt="..." style="border-radius: 2cm; width: 2cm; height: 2cm;">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                                    content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <h5 class="card-title"><strong>{{post.author}}</strong></h5>
+                                <p class="card-text">{{post.body}}</p>
+                                <p class="card-text"><small class="text-muted"><strong>{{post.created_on}}</strong></small></p>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
+                {% endfor %}
             </div>
           </div>
           <div class="col">
