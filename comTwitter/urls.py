@@ -11,7 +11,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-
+    path('accounts/login/',views.loginPage,name='login'),
+    path('register',views.registerPage,name='register'),
     path('', views.postListView.as_view(), name='landing'),
 
 
