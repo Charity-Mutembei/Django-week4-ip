@@ -12,7 +12,7 @@ from django.conf import settings
 
 urlpatterns = [
 
-    path('', views.landing, name='landing'),
+    path('', views.postListView.as_view(), name='landing'),
 
 
 ]
