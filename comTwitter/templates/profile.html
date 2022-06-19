@@ -130,23 +130,29 @@
 
     <div class="container" style="margin-top: 5%;">       
         <div class="row">
-          <div class="col-8">
-            <div class="see-this">
-                <div class="row">
-                    <div class="col-md-4">
-                        <form action="{% url 'landing' %}" method="POST">
-                            {% csrf_token %}
-                            {{form|crispy}}
+          <div class="col">
+            <div class="profile-section">
+                <div class="cardy">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/static/Cabelo quebradiço_ um guia completo para cabelos cacheados.jpeg" class="card-img-top" alt="...">
+                    
+                      <div class="card-body">
 
-                            <div class="d-grid gap-2" style="padding-bottom: 0.5cm;">
-                                <button class="btn btn-success mt-3" >Submit</button>
-                            </div>
-                        </form>
-                        
-                
-                    </div>
+                        <h5 class="card-title">{{profile.name}}</h5>
+
+                        <p class="card-text">{{profile.hood.location}} - {{profile.hood.name}}</p>
+                        <p class="card-text"></p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+
+                      
+                      </div>
                 </div>
-
+            </div>
+          </div>
+        <div class="col-6">
+            <div class="see-this">
+              
 
 
 

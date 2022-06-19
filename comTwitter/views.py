@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from  django.views import View
 from django.views.generic.edit  import CreateView
-from .models import Post
+from .models import Post, UserProfile
 from .forms import PostForm, registrationForm
 
 # Create your views here.
@@ -27,6 +27,7 @@ def registerPage(request):
 
 def loginPage(request):
     page = 'login'
+    user = request.user
     if request.user.is_authenticated:
         return redirect('landing')
 
@@ -83,3 +84,17 @@ class postListView(LoginRequiredMixin,CreateView):
         return render(request, 'landing.html', context)
         
 
+class ProfileView(LoginRequiredMixin, CreateView):
+    def get(self, request, pk, *args, **kwargs):
+        profile = UserProfile.objects.get(pk=pk)
+        user = profile.user
+        posts = Post.objects.filter(author=user).order_by('-created_on')
+
+
+        context={
+            'profile': profile,
+            'user': user,
+            'posts': posts,
+        }
+
+        return render(request, 'profile.html', context)

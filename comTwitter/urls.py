@@ -14,6 +14,7 @@ urlpatterns = [
     path('accounts/login/',views.loginPage,name='login'),
     path('register',views.registerPage,name='register'),
     path('', views.postListView.as_view(), name='landing'),
+    path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
 
 
 ]
