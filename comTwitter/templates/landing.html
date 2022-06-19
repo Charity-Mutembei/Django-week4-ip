@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <style>
@@ -145,6 +146,18 @@
           </div>
           <div class="col-6">
             <div class="see-this">
+                <div class="row">
+                    <div class="col-md-8">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{form|crispy}}
+                        </form>
+                    </div>
+                </div>
+
+
+
+
                 {% for post in posts %}
                 <div class="card mb-3" >
                    
