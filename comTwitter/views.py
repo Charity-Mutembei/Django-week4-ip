@@ -14,60 +14,12 @@ from .forms import PostForm,CreateUserForm
 from .email import send_welcome_email
 
 # Create your views here.
-def welcome(request):
-    return render(request, 'welcome.html')
-
-
-def registerPage(request):
-    form = CreateUserForm()
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST, request.FILES)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            send_welcome_email(username,email)
-            user = form.save()
-            login(request,user,backend = 'django.contrib.auth.backends.ModelBackend')
-            
-            return redirect('setup')
-        else:
-            messages.error(request,'An error has occurred when Logging, please use a stronger password')
-    context = {'form':form}
-    return render(request,'auth/register.html',context)   
-
-
-def loginPage(request):
-    page = 'login'
-    if request.user.is_authenticated:
-        return redirect('landing')
-
-    
-
-    if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
-        user_profile = UserProfile()
-        user_profile.username = username
-        user_profile.password= password
-        user_profile.save()
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, 'User does not exist ')
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            
-            login(request,UserProfile, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('landing')
-        else:
-            messages.error(request, 'Username or Password does not exist')
-    context = {'page':page}
-    return render(request,'login.html',context)
+# def welcome(request):
+#     return render(request, 'welcome.html')
 
 
 
-class postListView(LoginRequiredMixin,CreateView):
+class postListView(CreateView):
     def get(self, request, *args, **kwargs):
         user = self.request.user.profile
         posts = Post.objects.all()
@@ -97,7 +49,7 @@ class postListView(LoginRequiredMixin,CreateView):
         return render(request, 'landing.html', context)
         
 
-class ProfileView(LoginRequiredMixin, CreateView):
+class ProfileView( CreateView):
     def get(self, request, pk, *args, **kwargs):
         profile = UserProfile.objects.get(pk=pk)
         user = profile.user
@@ -112,7 +64,7 @@ class ProfileView(LoginRequiredMixin, CreateView):
 
         return render(request, 'profile.html', context)
 
-class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProfileEditView(UserPassesTestMixin, UpdateView):
     model = UserProfile
     fields = ['name', 'hood', 'email']
     template_name = 'profile_edit.html'
