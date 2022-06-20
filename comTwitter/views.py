@@ -36,7 +36,22 @@ def login_user(request):
         return render(request, 'auth/login.html')
 
 def register_user(request):
-    return render(request, 'auth/register.html')
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username= form.cleaned_data['username']
+            password=form.cleaned_data['password1']
+            user=authenticate(username=username,password=password)
+            login(request,user)
+
+            messages.success(request,('Registration successfull'))
+
+            return redirect('landing')
+
+    else:
+        form=CreateUserForm()
+    return render(request, 'auth/register.html', {'form': form})
 
 
 
@@ -74,7 +89,7 @@ class postListView(CreateView):
 class ProfileView( CreateView):
     def get(self, request, pk, *args, **kwargs):
         profile = UserProfile.objects.get(pk=pk)
-        user = profile.user
+        user = self.request.user.profile
         posts = Post.objects.filter(author=user).order_by('-created_on')
 
 

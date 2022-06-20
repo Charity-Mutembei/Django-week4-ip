@@ -12,7 +12,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('login_user', views.login_user, name='login'),
-    path('login_user', views.register_user, name='register'),
+    path('register_user', views.register_user, name='register'),
     path('', views.postListView.as_view(), name='landing'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
     path('profile/edit/<int:pk>/', views.ProfileEditView.as_view(), name='profile-edit'),

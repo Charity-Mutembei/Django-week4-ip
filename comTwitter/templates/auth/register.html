@@ -1,9 +1,13 @@
-{% extends 'auth/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
+{% if form.errors %}
+<p>There was an inconvinience. Report to the developers sent</p>
+
+{% endif %}
 <div class="form">
     <div class="shadow p-3 mb-5 bg-body rounded">
         <h1>Register</h1>
-            <form action="" method="POST">
+            <form action="{% url 'register' %}" method="POST">
                 {%csrf_token%}
                 <div class="inputBx">
                     <Label><i class="fa-regular fa-user"></i> Username:</Label>
