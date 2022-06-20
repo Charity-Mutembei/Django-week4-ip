@@ -17,7 +17,22 @@ from .email import send_welcome_email
 # def welcome(request):
 #     return render(request, 'welcome.html')
 
+def login_user(request):
+    if request.method == 'POST':
+        username= request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
+        if user is not None:
+            login(request, user)
+            return redirect('landing')
+
+        else:
+            messages.success(request, ('There was an error! Please try again'))
+            return redirect('login')
+
+    else:
+        return render(request, 'auth/login.html')
 
 class postListView(CreateView):
     def get(self, request, *args, **kwargs):
