@@ -34,3 +34,9 @@ class UserProfile(models.Model):
     email = models.EmailField(null=False, blank=False)
     updated_on = models.DateTimeField(default=timezone.now)
 
+
+class Business(models.Model):
+    name = models.TextField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    hood = models.ForeignKey(NeighbourHood, on_delete=models.PROTECT, null=False, blank=False)
+    business_email = models.EmailField(null=False, blank=False)
