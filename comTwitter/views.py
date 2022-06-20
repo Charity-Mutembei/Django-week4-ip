@@ -59,7 +59,8 @@ def loginPage(request):
 
 class postListView(LoginRequiredMixin,CreateView):
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.all().order_by("-created_on")
+        user = self.request.user.profile
+        posts = Post.objects.all().filter(user.hood)
         form  = PostForm()
 
 
@@ -73,7 +74,7 @@ class postListView(LoginRequiredMixin,CreateView):
 
         if form.is_valid():
             new_post = form.save(commit=False)
-            new_post.author = request.user
+            new_post.author = self.request.user.profile
             new_post.save()
 
             return redirect('landing')
@@ -114,3 +115,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         profile = self.get_object()
         return self.request.user == profile.user
+
+
+def Category(request, location):
+    pass

@@ -1,4 +1,5 @@
 # from tkinter import CASCADE
+from ssl import PROTOCOL_TLS_CLIENT
 from django.db import models
 from django.utils  import timezone
 from django.contrib.auth.models import User
@@ -18,13 +19,6 @@ class NeighbourHood(models.Model):
         
 
 
-class Post(models.Model):
-    body = models.TextField()
-    created_on = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.author)
 
 
 class UserProfile(models.Model):
@@ -34,9 +28,27 @@ class UserProfile(models.Model):
     email = models.EmailField(null=False, blank=False)
     updated_on = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return str(self.user)
+
+class Post(models.Model):
+    body = models.TextField()
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=False)
+    
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return str(self.author)
+
+
 
 class Business(models.Model):
     name = models.TextField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hood = models.ForeignKey(NeighbourHood, on_delete=models.PROTECT, null=False, blank=False)
     business_email = models.EmailField(null=False, blank=False)
+
+    def __str__(self):
+        return str(self.name)
