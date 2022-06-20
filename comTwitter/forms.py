@@ -1,19 +1,30 @@
 from django import forms 
-from .models import Post
+from .models import Post, NeighbourHood
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
+choices = NeighbourHood.objects.all().values_list('location', 'location')
+choice_list = []
+
+for item in choices:
+    choice_list.append(item)
+
 class PostForm(forms.ModelForm):
-    body = forms.CharField(
-        label='',
-        widget=forms.Textarea(attrs={
-            'rows': '2', 
-            'placeholder': 'Whats happening...'
-        } ))
+
     class Meta:
         model = Post
-        fields = ['body',]
+        fields = ['body','hood',]
+
+        widget={
+            'body': forms.Textarea(attrs={
+                'rows': '2', 
+                'placeholder': 'Whats happening...',
+                } ),
+            'hood':forms.Select(choices=choice_list,attrs={'class': 'form-control'}),
+
+            }
+   
 
 
 
