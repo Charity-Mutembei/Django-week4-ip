@@ -10,57 +10,67 @@ from django.contrib import messages
 from  django.views import View
 from django.views.generic.edit  import CreateView
 from .models import Post, UserProfile
-from .forms import PostForm, registrationForm
+from .forms import PostForm,CreateUserForm
+from .email import send_welcome_email
 
 # Create your views here.
+def welcome(request):
+    return render(request, 'welcome.html')
+
+
 def registerPage(request):
-    form = registrationForm()
+    form = CreateUserForm()
     if request.method == 'POST':
-        form = registrationForm(request.POST, request.FILES)
+        form = CreateUserForm(request.POST, request.FILES)
         if form.is_valid():
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
+            send_welcome_email(username,email)
             user = form.save()
             login(request,user,backend = 'django.contrib.auth.backends.ModelBackend')
-        return redirect ('landing')
-
-    return render(request, 'register.html', {'form':form})    
+            
+            return redirect('setup')
+        else:
+            messages.error(request,'An error has occurred when Logging, please use a stronger password')
+    context = {'form':form}
+    return render(request,'auth/register.html',context)   
 
 
 def loginPage(request):
     page = 'login'
-    user = request.user
     if request.user.is_authenticated:
         return redirect('landing')
+
+    
 
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
-
+        user_profile = UserProfile()
+        user_profile.username = username
+        user_profile.password= password
+        user_profile.save()
         try:
-            user = User.objects.get(username = username)
+            user = User.objects.get(username=username)
         except:
-            messages.error(request, 'User does not exist')
+            messages.error(request, 'User does not exist ')
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect ('landing')
-
+            
+            login(request,UserProfile, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('landing')
         else:
             messages.error(request, 'Username or Password does not exist')
-
-    context = {'page': page}
-    context = {}
-
-    return render(request, 'login.html', context)
+    context = {'page':page}
+    return render(request,'login.html',context)
 
 
 
 class postListView(LoginRequiredMixin,CreateView):
     def get(self, request, *args, **kwargs):
         user = self.request.user.profile
-        posts = Post.objects.all().filter(user.hood)
+        posts = Post.objects.all()
         form  = PostForm()
 
 
@@ -118,4 +128,4 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 def Category(request, location):
-    pass
+    return render(request, 'category.html', {'location': location})
