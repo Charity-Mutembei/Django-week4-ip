@@ -140,9 +140,9 @@
                     
                             <h5 class="card-title">{{profile.name}}
                                 <span>
-                                    {% if request.user == user %}
+
                                     <a href="{% url 'profile-edit' profile.pk %}"><i class="fa-solid fa-pen-to-square" style="font-size: 0.5cm; color: black;"></i></a>
-                                    {% endif %}
+
                                 </span>
                             </h5>
                     
