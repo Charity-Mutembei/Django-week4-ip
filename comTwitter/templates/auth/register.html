@@ -1,0 +1,34 @@
+{% extends 'auth/base.html' %}
+{% block content %}
+<div class="form">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <h1>Register</h1>
+            <form action="" method="POST">
+                {%csrf_token%}
+                <div class="inputBx">
+                    <Label><i class="fa-regular fa-user"></i> Username:</Label>
+                    {{form.username}}
+                </div>
+                
+                <div class="inputBx">
+                    <Label><i class="fa-regular fa-envelope-open"></i> Email Address:</Label>
+                    {{form.email}}
+                </div>
+            
+                <div class="inputBx">
+                    <label for=""> Password:</label>
+                    {{form.password1}}
+                </div>
+            
+                <div class="inputBx">
+                    <label for="">Confirm Password:</label>
+                    {{form.password2}}
+                </div>
+                <br>
+                <p>If you have an account <a href="{% url 'login' %}">Please Click here</a> to log in</p>
+                
+                <input type="submit" class="btn btn-outline-secondary" value="Register"/>
+            </form>
+    </div> 
+</div>
+{% endblock %}

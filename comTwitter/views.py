@@ -12,6 +12,7 @@ from django.views.generic.edit  import CreateView
 from .models import Post, UserProfile
 from .forms import PostForm,CreateUserForm
 from .email import send_welcome_email
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 # def welcome(request):
@@ -33,6 +34,12 @@ def login_user(request):
 
     else:
         return render(request, 'auth/login.html')
+
+def register_user(request):
+    return render(request, 'auth/register.html')
+
+
+
 
 class postListView(CreateView):
     def get(self, request, *args, **kwargs):
