@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from django.contrib import messages
 from  django.views import View
@@ -98,3 +100,17 @@ class ProfileView(LoginRequiredMixin, CreateView):
         }
 
         return render(request, 'profile.html', context)
+
+class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = UserProfile
+    fields = ['name', 'hood', 'email']
+    template_name = 'profile_edit.html'
+
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy ('profile', kwargs={'pk':pk})
+    
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user
