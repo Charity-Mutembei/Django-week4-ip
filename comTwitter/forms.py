@@ -1,5 +1,6 @@
+# from tkinter import Widget
 from django import forms 
-from .models import Post, NeighbourHood
+from .models import Post, NeighbourHood, Business
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -26,9 +27,15 @@ class PostForm(forms.ModelForm):
             }
    
 
-
-
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username','email','password1','password2']
+
+
+class BusinessForm(forms.ModelForm):
+    class Meta:
+        model = Business
+        fields = ['name', 'hood', 'business_email', 'created_on',]
+
+  

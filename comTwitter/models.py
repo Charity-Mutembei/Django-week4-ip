@@ -59,12 +59,19 @@ class Post(models.Model):
         return str(self.author)
 
 
+    @classmethod
+    def search_by_hood(cls,filter_term):
+        posts = cls.objects.filter(hood__icontains=filter_term)
+        return posts
+
+
 
 class Business(models.Model):
     name = models.TextField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=False, default='')
     hood = models.ForeignKey(NeighbourHood, on_delete=models.PROTECT, null=False, blank=False)
     business_email = models.EmailField(null=False, blank=False)
+    created_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return str(self.name)

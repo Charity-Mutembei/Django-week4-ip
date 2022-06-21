@@ -9,8 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from  django.views import View
 from django.views.generic.edit  import CreateView
-from .models import Post, UserProfile
-from .forms import PostForm,CreateUserForm
+from .models import Post, UserProfile, Business
+from .forms import PostForm,CreateUserForm, BusinessForm
 from .email import send_welcome_email
 from django.contrib.auth.forms import UserCreationForm
 
@@ -116,5 +116,38 @@ class ProfileEditView(UserPassesTestMixin, UpdateView):
         return self.request.user == profile.user
 
 
-def Category(request, location):
-    return render(request, 'category.html', {'location': location})
+# def Category(request, location):
+#     posts_locations=Post.objects.filter(hood=location)
+#     return render(request, 'category.html', {'location': location, 'posts_locations': posts_locations})
+
+
+
+def Category(request):
+    if 'post' in request.GET and request.GET['post']:
+        filter_term = request.GET.get('post')
+        filtered_posts = Post.search_by_hood(filter_term)
+        message = f'{filter_term}'
+
+        return render(request, 'category.html', {'message': message, 'posts': filtered_posts})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'category.html', {'message': message})
+
+
+
+@login_required(login_url='login')
+def business(request):
+    form = BusinessForm()
+    if request.method == 'POST':
+        form = BusinessForm(request.POST,request.FILES)
+        if form.is_valid():
+            jobs = form.save(commit=False)
+            jobs.author = request.user.profile
+            jobs.neighbourhood = request.user.profile.hood
+            jobs.save()
+            messages.success(request,f'The business has been posted successfully')
+            return redirect('business')
+
+    context = {'form':form}
+    return render(request,'business.html',context)

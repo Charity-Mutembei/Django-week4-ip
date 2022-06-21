@@ -16,7 +16,8 @@ urlpatterns = [
     path('', views.postListView.as_view(), name='landing'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
     path('profile/edit/<int:pk>/', views.ProfileEditView.as_view(), name='profile-edit'),
-    path('posts/by/location/<str:location>/',views.Category, name='category'),
+    path('posts/',views.Category, name='category'),
+    path('business/new/', views.business, name='business'),
 
 
 ]
