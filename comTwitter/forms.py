@@ -36,6 +36,6 @@ class CreateUserForm(UserCreationForm):
 class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
-        fields = ['name', 'hood', 'business_email', 'created_on',]
+        fields = ['name', 'description', 'hood', 'business_email', 'created_on',]
 
   

@@ -68,6 +68,7 @@ class Post(models.Model):
 
 class Business(models.Model):
     name = models.TextField(max_length=100)
+    description = models.TextField(max_length=300, default='')
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=False, default='')
     hood = models.ForeignKey(NeighbourHood, on_delete=models.PROTECT, null=False, blank=False)
     business_email = models.EmailField(null=False, blank=False)

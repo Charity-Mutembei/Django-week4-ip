@@ -18,6 +18,7 @@ urlpatterns = [
     path('profile/edit/<int:pk>/', views.ProfileEditView.as_view(), name='profile-edit'),
     path('posts/',views.Category, name='category'),
     path('business/new/', views.business, name='business'),
+    path('business/', views.businessshow, name='businessshow'),
 
 
 ]

@@ -56,7 +56,7 @@ def register_user(request):
 
 
 
-class postListView(CreateView):
+class postListView(LoginRequiredMixin,CreateView):
     def get(self, request, *args, **kwargs):
         user = self.request.user.profile
         posts = Post.objects.all()
@@ -86,7 +86,7 @@ class postListView(CreateView):
         return render(request, 'landing.html', context)
         
 
-class ProfileView( CreateView):
+class ProfileView(LoginRequiredMixin, CreateView):
     def get(self, request, pk, *args, **kwargs):
         profile = UserProfile.objects.get(pk=pk)
         user = self.request.user.profile
@@ -101,7 +101,7 @@ class ProfileView( CreateView):
 
         return render(request, 'profile.html', context)
 
-class ProfileEditView(UserPassesTestMixin, UpdateView):
+class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserProfile
     fields = ['name', 'hood', 'email']
     template_name = 'profile_edit.html'
@@ -121,7 +121,7 @@ class ProfileEditView(UserPassesTestMixin, UpdateView):
 #     return render(request, 'category.html', {'location': location, 'posts_locations': posts_locations})
 
 
-
+@login_required(login_url='login')
 def Category(request):
     if 'post' in request.GET and request.GET['post']:
         filter_term = request.GET.get('post')
@@ -144,10 +144,16 @@ def business(request):
         if form.is_valid():
             jobs = form.save(commit=False)
             jobs.author = request.user.profile
-            jobs.neighbourhood = request.user.profile.hood
             jobs.save()
             messages.success(request,f'The business has been posted successfully')
-            return redirect('business')
+            return redirect('businessshow')
 
     context = {'form':form}
     return render(request,'business.html',context)
+
+
+def businessshow(request):
+    businesses=Business.objects.all().order_by('-created_on')
+
+
+    return render(request, 'new_business.html', {'businesses': businesses})
