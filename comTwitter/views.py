@@ -18,6 +18,11 @@ from django.contrib.auth.forms import UserCreationForm
 def welcome(request):
     return render(request, 'welcome.html')
 
+@login_required(login_url='login')
+def logoutUser(request):
+    logout(request)
+    return redirect('welcome')
+
 def login_user(request):
     if request.method == 'POST':
         username= request.POST['username']
@@ -87,8 +92,8 @@ class postListView(LoginRequiredMixin,CreateView):
         
 
 class ProfileView(LoginRequiredMixin, CreateView):
-    def get(self, request, pk, *args, **kwargs):
-        profile = UserProfile.objects.get(pk=pk)
+    def get(self, request):
+        profile = request.user.profile
         user = self.request.user.profile
         posts = Post.objects.filter(author=user).order_by('-created_on')
 
