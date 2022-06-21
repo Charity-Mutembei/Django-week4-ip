@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<body>
+
+    <!-- content-area  -->
+    <div class="container" style="margin-top: 5%;">
+        <div class="row">
+            <div class="col-12">
+                <div class="see-this">
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <h1 style="color: white;"><strong>Create a new post</strong></h1>
+                        <div class="col-md-2">
+                            <form action="{% url 'new_post' %}" method="POST" style="color: white;">
+                                {% csrf_token %}
+                                <div class="body">
+                                    {{form|crispy}}
+
+                                </div>
+
+                                <div class="d-grid gap-2" style="padding-bottom: 0.5cm;">
+                                    <button class="btn btn-success mt-3">Submit</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

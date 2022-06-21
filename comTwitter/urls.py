@@ -15,10 +15,11 @@ urlpatterns = [
     path('login_user/', views.login_user, name='login'),
     path('logout',views.logoutUser,name='logout'),
     path('register_user/', views.register_user, name='register'),
-    path('landing/', views.postListView.as_view(), name='landing'),
+    path('landing/', views.landing, name='landing'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('profile/edit/<int:pk>/', views.ProfileEditView.as_view(), name='profile-edit'),
     path('posts/',views.Category, name='category'),
+    path('new/post/', views.postListView.as_view(), name='new_post'),
     path('business/new/', views.business, name='business'),
     path('business/', views.businessshow, name='businessshow'),
 

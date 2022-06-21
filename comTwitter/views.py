@@ -18,6 +18,10 @@ from django.contrib.auth.forms import UserCreationForm
 def welcome(request):
     return render(request, 'welcome.html')
 
+def landing(request):
+    posts = Post.objects.all().order_by('-created_on')
+    return render(request, 'landing.html', {'posts':posts})
+
 @login_required(login_url='login')
 def logoutUser(request):
     logout(request)
@@ -69,7 +73,7 @@ class postListView(LoginRequiredMixin,CreateView):
 
 
 
-        return render(request, 'landing.html', {'posts': posts, 'form': form})
+        return render(request, 'new_post.html', {'posts': posts, 'form': form})
 
     def post(self, request, *args, **kwargs):
         posts = Post.objects.all().order_by('-created_on')
@@ -88,7 +92,7 @@ class postListView(LoginRequiredMixin,CreateView):
             'form': form,
 
         }
-        return render(request, 'landing.html', context)
+        return render(request, 'new_post.html', context)
         
 
 class ProfileView(LoginRequiredMixin, CreateView):
