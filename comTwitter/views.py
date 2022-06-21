@@ -20,7 +20,8 @@ def welcome(request):
 
 def landing(request):
     posts = Post.objects.all().order_by('-created_on')
-    return render(request, 'landing.html', {'posts':posts})
+    businesses=Business.objects.all().order_by('-created_on')
+    return render(request, 'landing.html', {'posts':posts, 'businesses': businesses})
 
 @login_required(login_url='login')
 def logoutUser(request):
