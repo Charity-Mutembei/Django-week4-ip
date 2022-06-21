@@ -15,8 +15,8 @@ from .email import send_welcome_email
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-# def welcome(request):
-#     return render(request, 'welcome.html')
+def welcome(request):
+    return render(request, 'welcome.html')
 
 def login_user(request):
     if request.method == 'POST':
