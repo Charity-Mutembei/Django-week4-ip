@@ -199,7 +199,7 @@
                                         <form action="{% url 'like_project' post.pk %}" method="POST">
                                             {%csrf_token%}
                                             <div class="row">
-                                                <div class="col" style="margin-left: 0.5cm; ">
+                                                <div class="col" style="margin-left: 4cm; ">
                                                     <button type="submit" name="like_id" value="{{post.id}}"
                                                         class="btn btn-secondary btn-sm"
                                                         style="background-color: yellow; "><i
