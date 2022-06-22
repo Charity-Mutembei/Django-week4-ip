@@ -22,10 +22,10 @@
             <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"aria-current="page" href="{% url 'new_post' %}"><i class="fa-solid fa-square-plus"></i> Post </a>
+            <a class="nav-link active"aria-current="page" href="{% url 'new_post' %}"><i class="fa-solid fa-square-plus"></i> Post </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"aria-current="page" href="{% url 'new_post' %}"><i class="fa-solid fa-square-plus"></i> 911 </a>
+            <a class="nav-link active"aria-current="page" href="{% url 'new_post' %}"><i class="fa-solid fa-square-plus"></i> 911 </a>
           </li>
           
           <li class="nav-item dropdown">
@@ -42,7 +42,7 @@
             <a href="{% url 'profile' %}" style="color: yellow;"><img src="/static/Cabelo quebradiço_ um guia completo para cabelos cacheados.jpeg" alt="" style="width: 1cm; height: 1cm; border-radius: 1cm; margin-left: 0cm;">{{request.user}}</a>
         </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+              <a class="nav-link active" href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
           </li>
             
         </ul>

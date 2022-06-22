@@ -50,6 +50,8 @@ class Post(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=False)
     hood = models.CharField(max_length=255, null=False, blank=False, default='Nairobi')
+    likes = models.ManyToManyField(User,blank=True,related_name='likes')
+    dislikes = models.ManyToManyField(User,blank=True,related_name='dislikes')
 
     
     class Meta:

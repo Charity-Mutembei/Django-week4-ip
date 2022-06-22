@@ -13,6 +13,8 @@ from .models import Post, UserProfile, Business
 from .forms import PostForm,CreateUserForm, BusinessForm
 from .email import send_welcome_email
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 def welcome(request):
@@ -167,3 +169,13 @@ def businessshow(request):
 
 
     return render(request, 'new_business.html', {'businesses': businesses})
+
+
+
+@login_required(login_url='/login/')
+def likeProject(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('landing', ))
+
+

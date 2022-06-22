@@ -22,6 +22,7 @@ urlpatterns = [
     path('new/post/', views.postListView.as_view(), name='new_post'),
     path('business/new/', views.business, name='business'),
     path('business/', views.businessshow, name='businessshow'),
+    path('like/<str:pk>',views.likeProject,name='like_project'),
 
 
 ]
