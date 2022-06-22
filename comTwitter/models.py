@@ -24,13 +24,16 @@ class NeighbourHood(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, verbose_name='user', related_name='profile', on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    author = models.CharField(max_length=50, blank=True, null=True)
     hood = models.ForeignKey(NeighbourHood,null=True, blank=True, on_delete=models.PROTECT )
     email = models.EmailField(null=False, blank=False)
     updated_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return str(self.user)
+
+    def save_profile(self):
+        return self.save()
     
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -48,7 +51,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Post(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     hood = models.CharField(max_length=255, null=False, blank=False, default='Nairobi')
     likes = models.ManyToManyField(User,blank=True,related_name='likes')
     dislikes = models.ManyToManyField(User,blank=True,related_name='dislikes')
@@ -59,6 +62,9 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self.author)
+
+    def save_post(self):
+        self.save()
 
 
     @classmethod
